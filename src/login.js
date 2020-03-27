@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, ImageBackground } from 'react-native'
 
-const imageBackground = require('../assets/background.png')
+const imageBackground = require('../assets/images/background.png')
 
 export const Login = () => {
   return (
