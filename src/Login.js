@@ -1,6 +1,8 @@
 import React from 'react'
 import { StyleSheet, Text, View, ImageBackground, Image } from 'react-native'
 
+import { CustomInput } from './components/CustomInput'
+
 const imageBackground = require('../assets/images/background.png')
 const logo = require('../assets/images/logo_branca.png')
 
@@ -13,7 +15,11 @@ export const Login = () => {
             <Image source={logo} />
           </View>
           <View style={styles.content}>
-            <Text>Open up App.js to start working on your app!</Text>
+            <Text style={styles.title}>FAÇA SEU LOGIN</Text>
+            <View style={styles.form}>
+              <CustomInput icon='user' placeholder='E-mail, telefone ou CPF' borderTopRounded />
+              <CustomInput icon='password' placeholder='Senha' style={{ marginTop: 5 }} borderBottomRounded />
+            </View>
           </View>
         </View>
       </ImageBackground>
@@ -31,19 +37,25 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 14,
+    textAlign: 'center',
+    color: 'rgb(167, 167, 167)',
+  },
+  form: {
+    paddingTop: 41,
   },
   content: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#fff',
-    marginTop: -30,
-    marginBottom: 25,
+    padding: 17,
+    marginTop: -41,
+    marginBottom: 32,
+    marginLeft: 17,
+    marginRight: 17,
     borderTopLeftRadius: 5,
     borderTopRightRadius: 5,
-    width: '90%',
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
