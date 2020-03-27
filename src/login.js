@@ -12,7 +12,7 @@ export const Login = () => {
           <View style={styles.header}>
             <Image source={logo} />
           </View>
-          <View style={styles.container}>
+          <View style={styles.content}>
             <Text>Open up App.js to start working on your app!</Text>
           </View>
         </View>
@@ -33,6 +33,25 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  content: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+    marginTop: -30,
+    marginBottom: 25,
+    borderTopLeftRadius: 5,
+    borderTopRightRadius: 5,
+    width: '90%',
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.36,
+    shadowRadius: 6.68,
+    elevation: 11,
   },
   imageBackground: {
     flex: 1,
