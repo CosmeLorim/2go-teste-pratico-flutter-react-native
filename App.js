@@ -1,9 +1,9 @@
 import React from 'react'
-import { Login } from './src/Login'
+import { App } from './src/app'
 
 
-export default function App() {
+export default () => {
   return (
-    <Login />
+    <App />
   )
 }
