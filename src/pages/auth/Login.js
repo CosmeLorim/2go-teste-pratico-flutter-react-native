@@ -8,7 +8,7 @@ import { CustomInput } from '../../components/CustomInput'
 const keyPng = require('../../../assets/icons/key.png')
 const DividerEndPagePng = require('../../../assets/icons/ou.png')
 
-export const Login = () => {
+export const Login = ({ navigation }) => {
   return (
     <>
       <Text style={styles.title}>FAÇA SEU LOGIN</Text>
