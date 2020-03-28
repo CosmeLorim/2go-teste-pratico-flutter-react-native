@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableWithoutFeedback, Alert } from 'react-native'
 
 import { ButtonLoginWithGoogle, ButtonLoginWithFacebook } from '../../components/loginButtons'
-import { Register } from '../../components/authentication'
+import { FooterRegister } from '../../components/auth'
 import { CustomInput } from '../../components/CustomInput'
 
 const keyPng = require('../../../assets/icons/key.png')
@@ -34,7 +34,7 @@ export const Login = () => {
           <Image source={DividerEndPagePng} style={styles.dividerEndPage} />
         </View>
         <View style={styles.footerViewRegister}>
-          <Register />
+          <FooterRegister navitation={navigation} />
         </View>
       </View>
     </>
