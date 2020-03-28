@@ -34,6 +34,14 @@ const getImagePng = (icon) => {
       iconPng = require('../../assets/icons/block.png')
       break
 
+    case 'phone':
+      iconPng = require('../../assets/icons/smartphone.png')
+      break
+
+    case 'mail':
+      iconPng = require('../../assets/icons/mail.png')
+      break
+
     default:
       iconPng = require('../../assets/icons/white-block.png')
       break
