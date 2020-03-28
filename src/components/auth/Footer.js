@@ -1,8 +1,17 @@
 import React from 'react'
 import { StyleSheet, Text, View, TouchableWithoutFeedback, Alert } from 'react-native'
 
-export const Register = () => (
-  <TouchableWithoutFeedback onPress={e => Alert.alert('TODO: make register...')}>
+export const FooterLogin = ({ navitation }) => (
+  <TouchableWithoutFeedback onPress={e => navitation.navigate('Login')}>
+    <View style={styles.root}>
+      <Text style={styles.title}>Efetuar login</Text>
+      <Text style={styles.text}>Já possuí senha de acesso?</Text>
+    </View>
+  </TouchableWithoutFeedback>
+)
+
+export const FooterRegister = ({ navitation }) => (
+  <TouchableWithoutFeedback onPress={e => navitation.navigate('Register')}>
     <View style={styles.root}>
       <Text style={styles.title}>Cadastre-se</Text>
       <Text style={styles.text}>Ainda não possui cadastro?</Text>
