@@ -23,7 +23,7 @@ export const Register = ({ navigation }) => {
       <Text style={styles.title}>FAÇA SEU CADASTRO</Text>
 
       <View style={styles.formPart1}>
-        <CustomInput icon='phone' placeholder='Informe seu celular' borderTopRounded />
+        <CustomInput icon='phone' placeholder='Informe seu celular' keyboardType='phone-pad' borderTopRounded />
         <CustomInput icon='mail' placeholder='Informe seu e-mail' style={{ marginTop: -1 }} />
       </View>
       <View style={styles.formPart2}>
