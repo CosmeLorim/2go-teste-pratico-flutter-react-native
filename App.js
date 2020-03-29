@@ -1,12 +1,7 @@
 import React from 'react'
 import { ThemeProvider } from 'react-native-elements'
 import { App } from './src/app'
-
-const theme = {
-  colors: {
-    primary: '#af3200',
-  }
-}
+import { theme } from './src/theme'
 
 export default () => {
   return (
