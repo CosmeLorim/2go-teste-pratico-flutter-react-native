@@ -7,7 +7,8 @@ export const CustomInput = props => {
     placeholder,
     borderTopRounded = false,
     borderBottomRounded = false,
-    style = StyleSheet.create({})
+    style = StyleSheet.create({}),
+    keyboardType,
   } = props
   const styles = getStyles({ borderTopRounded, borderBottomRounded, style })
 
@@ -17,7 +18,12 @@ export const CustomInput = props => {
   return (
     <View style={styles.root}>
       <Image source={iconPng} style={styles.icon} />
-      <TextInput style={styles.input} secureTextEntry={secureTextEntry} placeholder={placeholder} />
+      <TextInput
+        style={styles.input}
+        secureTextEntry={secureTextEntry}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+      />
     </View>
   )
 }
