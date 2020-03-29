@@ -93,9 +93,4 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'flex-end',
   },
-  imageBackground: {
-    flex: 1,
-    width: '100%',
-    resizeMode: 'cover',
-  },
 })
