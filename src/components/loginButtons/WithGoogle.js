@@ -13,6 +13,9 @@ export const WithGoogle = () => (
 
 const styles = StyleSheet.create({
   root: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#ebebeb',
     padding: 4,
@@ -21,7 +24,7 @@ const styles = StyleSheet.create({
     borderColor: '#d2d2d2',
   },
   image: {
-    width: 35,
-    height: 35,
+    width: 25,
+    height: 25,
   },
 })

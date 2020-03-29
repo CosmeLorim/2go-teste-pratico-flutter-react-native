@@ -13,6 +13,10 @@ export const WithFacebook = () => (
 
 const styles = StyleSheet.create({
   root: {
+    width: 40,
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
     backgroundColor: '#3b5998',
     padding: 4,
     borderRadius: 3,
