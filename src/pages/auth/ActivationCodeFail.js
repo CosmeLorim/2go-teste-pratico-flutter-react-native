@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Image, StyleSheet, TouchableHighlight } from 'react-native'
 import { Text } from 'react-native-elements'
 
-import { FooterLogin, FooterRegister } from '../../components/auth'
+import { FooterInvalidCode } from '../../components/auth'
 
 const DividerEndPagePng = require('../../../assets/icons/ou.png')
 const FailPng = require('../../../assets/icons/fail.png')
@@ -22,8 +22,7 @@ export const ActivationCodeFail = ({ navigation }) => {
           <Image source={DividerEndPagePng} style={styles.dividerEndPage} />
         </View>
         <View style={styles.footerViewRegister}>
-          <FooterLogin navitation={navigation} />
-          <FooterRegister navitation={navigation} />
+          <FooterInvalidCode navitation={navigation} />
         </View>
       </View>
     </>
@@ -50,6 +49,6 @@ const styles = StyleSheet.create({
   },
   footerViewRegister: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
   },
 })
