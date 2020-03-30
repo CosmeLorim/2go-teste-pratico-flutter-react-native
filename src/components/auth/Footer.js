@@ -19,6 +19,15 @@ export const FooterRegister = ({ navitation }) => (
   </TouchableWithoutFeedback>
 )
 
+export const FooterInvalidCode = ({ navitation }) => (
+  <TouchableWithoutFeedback onPress={e => navitation.navigate('Register')}>
+    <View style={styles.root}>
+      <Text style={styles.title}>Voltar para o token</Text>
+      <Text style={styles.text}>Você digitou o token errado</Text>
+    </View>
+  </TouchableWithoutFeedback>
+)
+
 const styles = StyleSheet.create({
   root: {
     alignItems: 'center',
