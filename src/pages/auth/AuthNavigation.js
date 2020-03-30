@@ -6,6 +6,7 @@ import { TermsOfUse } from './TermsOfUse'
 import { ActivationCode } from './ActivationCode'
 import { ActivationCodeFail } from './ActivationCodeFail'
 import { Authorizations } from './Authorizations'
+import { SuccessRegister } from './SuccessRegister'
 
 const switchNavigator = createSwitchNavigator({
   Login,
@@ -13,6 +14,8 @@ const switchNavigator = createSwitchNavigator({
   TermsOfUse,
   ActivationCode,
   ActivationCodeFail,
+  Authorizations,
+  SuccessRegister,
 })
 
 export const AuthNavigation = createAppContainer(switchNavigator)
