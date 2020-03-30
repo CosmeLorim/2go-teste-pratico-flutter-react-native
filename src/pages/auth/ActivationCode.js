@@ -38,7 +38,6 @@ export const ActivationCode = ({ navigation }) => {
       <Spinner
         visible={loading}
         textContent={'Verificando código...'}
-        textStyle={styles.spinnerTextStyle}
       />
       <Text h1>CÓDIGO DE ATIVAÇÃO</Text>
 
