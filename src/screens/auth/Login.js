@@ -23,7 +23,7 @@ export const Login = ({ navigation }) => {
       <View style={styles.loginButtonsView}>
         <ButtonLoginWithGoogle />
         <ButtonLoginWithFacebook />
-        <TouchableWithoutFeedback onPress={e => Alert.alert('TODO: make login')}>
+        <TouchableWithoutFeedback onPress={e => navigation.navigate('Home')}>
           <View style={styles.loginBottom}>
             <Text style={styles.loginBottomText}>LOGIN</Text>
           </View>
