@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useFormik } from 'formik'
+
 import {
   StyleSheet,
   View,
@@ -6,6 +8,7 @@ import {
   TextInput,
 } from 'react-native'
 import { Text } from 'react-native-elements'
+import Spinner from 'react-native-loading-spinner-overlay'
 
 import { theme } from '../../theme'
 
@@ -14,15 +17,36 @@ import { FooterLogin, FooterRegister, WaitingSms } from '../../components/auth'
 const DividerEndPagePng = require('../../../assets/icons/ou.png')
 
 export const ActivationCode = ({ navigation }) => {
+  const [loading, setLoading] = useState(false)
+  const { handleChange, values } = useFormik({
+    initialValues: {
+      num1: '',
+      num2: '',
+      num3: '',
+      num4: '',
+    },
+  })
+
+  useEffect(() => {
+    if (!haveEmptyInputs(values)) {
+      submitCode({ setLoading, values, navigation })
+    }
+  }, [values.num1, values.num2, values.num3, values.num4])
+
   return (
     <>
+      <Spinner
+        visible={loading}
+        textContent={'Verificando código...'}
+        textStyle={styles.spinnerTextStyle}
+      />
       <Text h1>CÓDIGO DE ATIVAÇÃO</Text>
 
       <View style={styles.activationCode}>
-        <ActivationCodeInput />
-        <ActivationCodeInput />
-        <ActivationCodeInput />
-        <ActivationCodeInput />
+        <ActivationCodeInput onChangeText={handleChange('num1')} value={values.num1} />
+        <ActivationCodeInput onChangeText={handleChange('num2')} value={values.num2} />
+        <ActivationCodeInput onChangeText={handleChange('num3')} value={values.num3} />
+        <ActivationCodeInput onChangeText={handleChange('num4')} value={values.num4} />
       </View>
 
       <Text style={{ textAlign: 'center' }}>
@@ -42,22 +66,40 @@ export const ActivationCode = ({ navigation }) => {
           <FooterRegister navitation={navigation} />
         </View>
       </View>
-
     </>
   )
 }
 
-const ActivationCodeInput = () => {
-  const [value, setValue] = useState('')
+const haveEmptyInputs = (values) => {
+  for (const label in values) {
+    const value = values[label]
+    if (value === '') return true
+  }
+  ''
+  return false
+}
 
+const submitCode = async ({ setLoading, values, navigation }) => {
+  setLoading(true)
+
+  setTimeout(() => {
+    if (values.num1 === '0' && values.num2 === '0' && values.num3 === '0' && values.num4 === '0') {
+      navigation.navigate('UpdateProfile')
+    } else {
+      navigation.navigate('ActivationCodeFail')
+    }
+  }, 1500);
+}
+
+const ActivationCodeInput = ({ onChangeText, value }) => {
   return (
     <View style={activationCodeStyle.root}>
       <TextInput
         keyboardType='phone-pad'
         style={activationCodeStyle.input}
-        value={value}
         maxLength={1}
-        onChange={v => setValue(v)}
+        onChangeText={onChangeText}
+        value={value}
       />
     </View>
   )
@@ -73,8 +115,6 @@ const activationCodeStyle = StyleSheet.create({
   },
   input: {
     textAlign: 'center',
-    width: 25,
-    height: 25,
     fontSize: 25
   },
 })
