@@ -4,6 +4,7 @@ import { Login } from './Login'
 import { Register } from './Register'
 import { TermsOfUse } from './TermsOfUse'
 import { ActivationCode } from './ActivationCode'
+import { UpdateProfile } from './UpdateProfile'
 import { ActivationCodeFail } from './ActivationCodeFail'
 import { Authorizations } from './Authorizations'
 import { SuccessRegister } from './SuccessRegister'
@@ -13,6 +14,7 @@ const switchNavigator = createSwitchNavigator({
   Register,
   TermsOfUse,
   ActivationCode,
+  UpdateProfile,
   ActivationCodeFail,
   Authorizations,
   SuccessRegister,
