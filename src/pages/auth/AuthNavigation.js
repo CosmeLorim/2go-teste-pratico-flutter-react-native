@@ -5,6 +5,7 @@ import { Register } from './Register'
 import { TermsOfUse } from './TermsOfUse'
 import { ActivationCode } from './ActivationCode'
 import { ActivationCodeFail } from './ActivationCodeFail'
+import { Authorizations } from './Authorizations'
 
 const switchNavigator = createSwitchNavigator({
   Login,
