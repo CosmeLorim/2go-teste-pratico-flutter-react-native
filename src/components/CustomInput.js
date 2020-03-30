@@ -3,6 +3,8 @@ import { StyleSheet, View, Image, TextInput } from 'react-native'
 
 export const CustomInput = props => {
   const {
+    onChangeText,
+    value,
     icon,
     placeholder,
     borderTopRounded = false,
@@ -19,6 +21,8 @@ export const CustomInput = props => {
     <View style={styles.root}>
       <Image source={iconPng} style={styles.icon} />
       <TextInput
+        onChangeText={onChangeText}
+        value={value}
         style={styles.input}
         secureTextEntry={secureTextEntry}
         placeholder={placeholder}
@@ -46,6 +50,14 @@ const getImagePng = (icon) => {
 
     case 'mail':
       iconPng = require('../../assets/icons/mail.png')
+      break
+
+    case 'gift':
+      iconPng = require('../../assets/icons/gift.png')
+      break
+
+    case 'doc':
+      iconPng = require('../../assets/icons/doc.png')
       break
 
     default:
@@ -79,7 +91,7 @@ const getStyles = ({ borderTopRounded, borderBottomRounded, style }) => {
       padding: 10,
       marginLeft: 8,
       marginRight: 26,
-      height: 30,
+      height: 25,
       width: 25,
       resizeMode: 'stretch',
       alignItems: 'center',
