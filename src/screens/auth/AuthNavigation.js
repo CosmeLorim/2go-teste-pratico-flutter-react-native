@@ -1,6 +1,7 @@
 import { createSwitchNavigator, createAppContainer } from 'react-navigation'
 
 import { Login } from './Login'
+import { ForgotPassword } from './ForgotPassword'
 import { Register } from './Register'
 import { TermsOfUse } from './TermsOfUse'
 import { ActivationCode } from './ActivationCode'
@@ -12,6 +13,7 @@ import { Home } from './Home'
 
 const switchNavigator = createSwitchNavigator({
   Login,
+  ForgotPassword,
   Register,
   TermsOfUse,
   ActivationCode,

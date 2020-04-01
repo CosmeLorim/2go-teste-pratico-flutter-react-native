@@ -1,5 +1,13 @@
 import React, { useState } from 'react'
-import { StyleSheet, Text, View, Image, AsyncStorage, Alert } from 'react-native'
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  AsyncStorage,
+  Alert,
+  TouchableWithoutFeedback,
+} from 'react-native'
 import { Button } from 'react-native-elements'
 import { useFormik } from 'formik'
 import Axios from 'axios'
@@ -20,7 +28,7 @@ export const Login = ({ navigation }) => {
       login: '',
       password: '',
     },
-    onSubmit: onSubmit({ setLoading,navigation }),
+    onSubmit: onSubmit({ setLoading, navigation }),
   })
 
   return (
@@ -44,10 +52,12 @@ export const Login = ({ navigation }) => {
           borderBottomRounded
         />
       </View>
-      <View style={styles.forgotPasswordView}>
-        <Image source={keyPng} style={styles.forgotPasswordImage} />
-        <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
-      </View>
+      <TouchableWithoutFeedback onPress={e => navigation.navigate('ForgotPassword')}>
+        <View style={styles.forgotPasswordView}>
+          <Image source={keyPng} style={styles.forgotPasswordImage} />
+          <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
+        </View>
+      </TouchableWithoutFeedback>
       <View style={styles.loginButtonsView}>
         <ButtonLoginWithGoogle />
         <ButtonLoginWithFacebook />

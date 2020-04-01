@@ -1,4 +1,5 @@
 export { Login } from './Login'
+export { ForgotPassword } from './ForgotPassword'
 export { Register } from './Register'
 export { TermsOfUse } from './TermsOfUse'
 export { AuthNavigation } from './AuthNavigation'

@@ -1,10 +1,14 @@
 import React from 'react'
-import { StyleSheet, View, Image, TextInput } from 'react-native'
+import { StyleSheet, View, Image, TextInput, Text } from 'react-native'
 import { TextInputMask } from 'react-native-masked-text'
+
+const CheckedPng = require('../../assets/icons/tick.png')
 
 export const CustomInput = props => {
   const {
     onChangeText,
+    checked,
+    error,
     type,
     options,
     value,
@@ -16,28 +20,37 @@ export const CustomInput = props => {
     secureTextEntry,
     keyboardType,
   } = props
-  const styles = getStyles({ borderTopRounded, borderBottomRounded, style })
+  const styles = getStyles({ borderTopRounded, borderBottomRounded, checked, style })
 
   const iconPng = getImagePng(icon)
   const Input = type ? TextInputMask : TextInput
 
   return (
-    <View style={styles.root}>
-      <Image source={iconPng} style={styles.icon} />
-      <Input
-        type={type}
-        options={options}
-        onChangeText={onChangeText}
-        value={value}
-        style={styles.input}
-        secureTextEntry={secureTextEntry}
-        placeholder={placeholder}
-        keyboardType={keyboardType}
-      />
-    </View>
+    <>
+      <View style={styles.root}>
+        <Image source={iconPng} style={styles.icon} />
+        <Input
+          type={type}
+          options={options}
+          onChangeText={onChangeText}
+          value={value}
+          style={styles.input}
+          secureTextEntry={secureTextEntry}
+          placeholder={placeholder}
+          keyboardType={keyboardType}
+        />
+        {
+          checked && (
+            <Image source={CheckedPng} style={styles.icon} />
+          )
+        }
+      </View>
+      {error &&
+        <Text style={{ fontSize: 10, color: 'red' }}>{error}</Text>
+      }
+    </>
   )
 }
-
 const getImagePng = (icon) => {
   let iconPng
 
@@ -48,6 +61,10 @@ const getImagePng = (icon) => {
 
     case 'password':
       iconPng = require('../../assets/icons/block.png')
+      break
+
+    case 'more':
+      iconPng = require('../../assets/icons/more.png')
       break
 
     case 'phone':
@@ -74,14 +91,13 @@ const getImagePng = (icon) => {
   return iconPng
 }
 
-const getStyles = ({ borderTopRounded, borderBottomRounded, style }) => {
+const getStyles = ({ borderTopRounded, borderBottomRounded, checked, style }) => {
   const borderTop = borderTopRounded ? 10 : 0
   const borderBottom = borderBottomRounded ? 10 : 0
 
   return StyleSheet.create({
     root: {
       flexDirection: 'row',
-      justifyContent: 'flex-start',
       alignItems: 'center',
       borderWidth: 1,
       borderColor: '#afafaf',
@@ -103,7 +119,7 @@ const getStyles = ({ borderTopRounded, borderBottomRounded, style }) => {
       alignItems: 'center',
     },
     input: {
-      width: '100%',
+      width: checked ? '65%' : '100%',
     },
   })
 }

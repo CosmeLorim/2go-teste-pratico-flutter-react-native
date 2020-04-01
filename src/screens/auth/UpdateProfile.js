@@ -11,6 +11,7 @@ import {
   Alert,
 } from 'react-native'
 import Axios from 'axios'
+import * as yup from 'yup'
 
 import { launchImageLibraryAsync } from 'expo-image-picker'
 
@@ -23,13 +24,26 @@ export const UpdateProfile = ({ navigation }) => {
   const [profilePic, setProfilePic] = useState({ uri: '../../../assets/icons/white-block.png' })
   const [loading, setLoading] = useState(false)
 
-  const { handleChange, handleSubmit, values } = useFormik({
+  const { handleChange, handleSubmit, values, errors } = useFormik({
     initialValues: {
       fullName: '',
       birthDate: '',
       cpf: '',
     },
     onSubmit: onSubmit({ navigation, setLoading, profilePic }),
+    validationSchema: yup.object().shape({
+      fullName: yup
+        .string()
+        .required('Nome é obrigatório'),
+      birthDate: yup
+        .string()
+        .min(10, 'Data não válida')
+        .required('Data é obrigatória'),
+      cpf: yup
+        .string()
+        .min(14, 'CPF inválido')
+        .required('CPF é obrigatória'),
+    }),
   })
 
   return (
@@ -49,6 +63,7 @@ export const UpdateProfile = ({ navigation }) => {
           icon='user'
           onChangeText={handleChange('fullName')}
           value={values.fullName}
+          error={errors.fullName}
           placeholder='Nome completo'
           borderTopRounded
         />
@@ -58,6 +73,7 @@ export const UpdateProfile = ({ navigation }) => {
           options={{
             format: 'DD/MM/YYYY'
           }}
+          error={errors.birthDate}
           onChangeText={handleChange('birthDate')}
           value={values.birthDate}
           style={{ marginTop: -1 }}
@@ -67,6 +83,7 @@ export const UpdateProfile = ({ navigation }) => {
         <CustomInput
           icon='doc'
           type='cpf'
+          error={errors.cpf}
           onChangeText={handleChange('cpf')}
           value={values.cpf}
           style={{ marginTop: -1 }}

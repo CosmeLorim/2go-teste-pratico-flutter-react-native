@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,8 @@ import {
   AsyncStorage,
 } from 'react-native'
 import { useFormik } from 'formik'
+import * as yup from 'yup'
+
 import { CheckBox, Button } from 'react-native-elements'
 
 import { ButtonLoginWithGoogle, ButtonLoginWithFacebook } from '../../components/loginButtons'
@@ -24,7 +26,7 @@ const DividerEndPagePng = require('../../../assets/icons/ou.png')
 export const Register = ({ navigation }) => {
   const [acceptedTermsOfUse, setAcceptedTermsOfUse] = useState(false)
   const [loading, setLoading] = useState(false)
-  const { values, handleChange, handleSubmit } = useFormik({
+  const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues: {
       phone: '',
       email: '',
@@ -32,8 +34,25 @@ export const Register = ({ navigation }) => {
       password2: '',
     },
     onSubmit: onSubmit({ setLoading, navigation }),
+    validationSchema: yup.object().shape({
+      phone: yup
+        .string()
+        .min(14, 'Tefelone não é válido')
+        .required('Telefone é obrigatório'),
+      email: yup
+        .string()
+        .email('E-mail não válido')
+        .required('E-mail é obrigatório'),
+      password1: yup
+        .string()
+        .min(8, 'Senha deve ter 8 digitos')
+        .required('Senha é obrigatória'),
+      password2: yup
+        .string()
+        .required('Senha é obrigatória'),
+    }),
   })
-
+  const areEqualPasswords = values.password1 === values.password2
 
   return (
     <ScrollView>
@@ -48,6 +67,7 @@ export const Register = ({ navigation }) => {
             withDDD: true,
             dddMask: '(99) '
           }}
+          error={errors.phone}
           value={values.phone}
           onChangeText={handleChange('phone')}
           placeholder='Informe seu celular'
@@ -57,6 +77,7 @@ export const Register = ({ navigation }) => {
         <CustomInput
           icon='email'
           value={values.email}
+          error={errors.email}
           onChangeText={handleChange('email')}
           placeholder='Informe seu e-mail'
           style={{ marginTop: -1 }}
@@ -67,12 +88,16 @@ export const Register = ({ navigation }) => {
           icon='password'
           secureTextEntry
           value={values.password1}
+          error={errors.password1}
+          checked={!errors.password1}
           onChangeText={handleChange('password1')}
           placeholder='Digite sua senha'
         />
         <CustomInput
           value={values.password2}
+          error={errors.password2}
           secureTextEntry
+          checked={areEqualPasswords}
           onChangeText={handleChange('password2')}
           placeholder='Confirme sua senha'
           style={{ marginTop: -1 }}
