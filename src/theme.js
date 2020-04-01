@@ -17,4 +17,9 @@ export const theme = {
       paddingBottom: 10,
     },
   },
+  Buttom: {
+    containerStyle: {
+      borderRadius: 3,
+    },
+  },
 }
