@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import { useFormik } from 'formik'
+import Axios from 'axios'
 
 import {
   StyleSheet,
   View,
   Image,
   TextInput,
+  Alert,
+  AsyncStorage,
 } from 'react-native'
 import { Text } from 'react-native-elements'
 import Spinner from 'react-native-loading-spinner-overlay'
@@ -15,14 +18,15 @@ import { theme } from '../../theme'
 import { FooterLogin, FooterRegister, WaitingSms } from '../../components/auth'
 
 const DividerEndPagePng = require('../../../assets/icons/ou.png')
+const baseUrl = 'http://192.168.1.110:8080'
 
 export const ActivationCode = ({ navigation }) => {
   const [loading, setLoading] = useState(false)
   const { handleChange, values } = useFormik({
     initialValues: {
-      num1: '',
-      num2: '',
-      num3: '',
+      num1: '0',
+      num2: '0',
+      num3: '0',
       num4: '',
     },
   })
@@ -80,14 +84,28 @@ const haveEmptyInputs = (values) => {
 
 const submitCode = async ({ setLoading, values, navigation }) => {
   setLoading(true)
+  const { num1, num2, num3, num4 } = values
 
-  setTimeout(() => {
-    if (values.num1 === '0' && values.num2 === '0' && values.num3 === '0' && values.num4 === '0') {
+  const code = `${num1}${num2}${num3}${num4}`
+  const token = await AsyncStorage.getItem('token')
+  try {
+    const { data } = await Axios({
+      method: 'POST',
+      url: `${baseUrl}/api/v1/users/validate-code`,
+      data: { code, token },
+    })
+
+    if (data.success) {
       navigation.navigate('UpdateProfile')
     } else {
-      navigation.navigate('ActivationCodeFail')
+      Alert.alert(data.errors[0])
+      setLoading(false)
     }
-  }, 1500);
+  } catch (error) {
+    console.error(error)
+    Alert.alert('Estamos com instabilidades, sua requisição não podê ser atendida.')
+    setLoading(false)
+  }
 }
 
 const ActivationCodeInput = ({ onChangeText, value }) => {

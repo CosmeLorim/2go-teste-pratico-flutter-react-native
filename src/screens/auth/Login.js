@@ -1,5 +1,8 @@
-import React from 'react'
-import { StyleSheet, Text, View, Image, TouchableWithoutFeedback, Alert } from 'react-native'
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, Image, AsyncStorage, Alert } from 'react-native'
+import { Button } from 'react-native-elements'
+import { useFormik } from 'formik'
+import Axios from 'axios'
 
 import { ButtonLoginWithGoogle, ButtonLoginWithFacebook } from '../../components/loginButtons'
 import { FooterRegister } from '../../components/auth'
@@ -7,14 +10,38 @@ import { CustomInput } from '../../components/CustomInput'
 
 const keyPng = require('../../../assets/icons/key.png')
 const DividerEndPagePng = require('../../../assets/icons/ou.png')
+const baseUrl = 'http://192.168.1.110:8080'
+
 
 export const Login = ({ navigation }) => {
+  const [loading, setLoading] = useState(false)
+  const { handleChange, values, handleSubmit } = useFormik({
+    initialValues: {
+      login: '',
+      password: '',
+    },
+    onSubmit: onSubmit({ setLoading,navigation }),
+  })
+
   return (
     <>
       <Text style={styles.title}>FAÇA SEU LOGIN</Text>
       <View style={styles.form}>
-        <CustomInput icon='user' placeholder='E-mail, telefone ou CPF' borderTopRounded />
-        <CustomInput icon='password' placeholder='Senha' style={{ marginTop: 5 }} borderBottomRounded />
+        <CustomInput
+          value={values.login}
+          onChangeText={handleChange('login')}
+          icon='user'
+          placeholder='E-mail, telefone ou CPF'
+          borderTopRounded
+        />
+        <CustomInput
+          value={values.password}
+          onChangeText={handleChange('password')}
+          icon='password'
+          placeholder='Senha'
+          style={{ marginTop: 5 }}
+          borderBottomRounded
+        />
       </View>
       <View style={styles.forgotPasswordView}>
         <Image source={keyPng} style={styles.forgotPasswordImage} />
@@ -23,11 +50,12 @@ export const Login = ({ navigation }) => {
       <View style={styles.loginButtonsView}>
         <ButtonLoginWithGoogle />
         <ButtonLoginWithFacebook />
-        <TouchableWithoutFeedback onPress={e => navigation.navigate('Home')}>
-          <View style={styles.loginBottom}>
-            <Text style={styles.loginBottomText}>LOGIN</Text>
-          </View>
-        </TouchableWithoutFeedback>
+        <Button
+          title='LOGIN'
+          onPress={handleSubmit}
+          containerStyle={styles.loginBottom}
+          loading={loading}
+        />
       </View>
       <View style={styles.footerContent}>
         <View style={{ alignItems: 'center' }}>
@@ -39,6 +67,33 @@ export const Login = ({ navigation }) => {
       </View>
     </>
   )
+}
+
+const onSubmit = ({ setLoading, navigation }) => async values => {
+  setLoading(true)
+  const { login, password } = values
+
+  try {
+    const { data } = await Axios({
+      method: 'POST',
+      url: `${baseUrl}/api/v1/users/auth/sign-in`,
+      data: {
+        login,
+        password,
+      },
+    })
+
+    if (data.success) {
+      AsyncStorage.setItem('token', data.token)
+      navigation.navigate('Home')
+    } else {
+      Alert.alert(data.errors[0])
+    }
+  } catch (error) {
+    console.error(error)
+    Alert.alert('Estamos com instabilidades, sua requisição não podê ser atendida.')
+  }
+  setLoading(false)
 }
 
 const styles = StyleSheet.create({

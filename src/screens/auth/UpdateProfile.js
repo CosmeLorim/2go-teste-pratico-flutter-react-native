@@ -1,41 +1,44 @@
 import React, { useState } from 'react'
 import { Text, Button } from 'react-native-elements'
 import { useFormik } from 'formik'
-import { TouchableWithoutFeedback, Image, ImageBackground, StyleSheet, View } from 'react-native'
-import Spinner from 'react-native-loading-spinner-overlay'
+import {
+  TouchableWithoutFeedback,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  View,
+  AsyncStorage,
+  Alert,
+} from 'react-native'
+import Axios from 'axios'
 
 import { launchImageLibraryAsync } from 'expo-image-picker'
 
 import { CustomInput } from '../../components/CustomInput'
 
 const ProfilePng = require('../../../assets/icons/profile.png')
-
-const initialValues = {
-  name: '',
-  dateOfBirth: '',
-  cpf: '',
-}
+const baseUrl = 'http://192.168.1.110:8080'
 
 export const UpdateProfile = ({ navigation }) => {
-  const [profilePick, setProfilePick] = useState({ uri: '' })
+  const [profilePic, setProfilePic] = useState({ uri: '../../../assets/icons/white-block.png' })
   const [loading, setLoading] = useState(false)
 
   const { handleChange, handleSubmit, values } = useFormik({
-    initialValues,
-    onSubmit: onSubmit({ navigation, setLoading }),
+    initialValues: {
+      fullName: '',
+      birthDate: '',
+      cpf: '',
+    },
+    onSubmit: onSubmit({ navigation, setLoading, profilePic }),
   })
 
   return (
     <>
-    <Spinner
-      visible={loading}
-      textContent={'Carregando...'}
-    />
       <Text h1>ATUALIZE SEU PERFIL</Text>
 
-      <TouchableWithoutFeedback onPress={getImage({ setProfilePick })}>
+      <TouchableWithoutFeedback onPress={getImage({ setProfilePic })}>
         <View style={styles.profileTouchableArea}>
-          <ImageBackground source={profilePick} style={styles.profileImageBackground}>
+          <ImageBackground source={profilePic} style={styles.profileImageBackground}>
             <Image source={ProfilePng} style={styles.profileImage} />
           </ImageBackground>
         </View>
@@ -44,15 +47,15 @@ export const UpdateProfile = ({ navigation }) => {
       <View style={styles.form}>
         <CustomInput
           icon='user'
-          onChangeText={handleChange('name')}
-          value={values.name}
+          onChangeText={handleChange('fullName')}
+          value={values.fullName}
           placeholder='Nome completo'
           borderTopRounded
         />
         <CustomInput
           icon='gift'
-          onChangeText={handleChange('dateOfBirth')}
-          value={values.dateOfBirth}
+          onChangeText={handleChange('birthDate')}
+          value={values.birthDate}
           style={{ marginTop: -1 }}
           placeholder='Data de Nascimento'
           keyboardType='phone-pad'
@@ -68,24 +71,51 @@ export const UpdateProfile = ({ navigation }) => {
         />
       </View>
 
-      <Button title='FINALIZAR' onPress={handleSubmit} />
+      <Button title='FINALIZAR' loading={loading} onPress={handleSubmit} />
     </>
   )
 }
 
-const onSubmit = ({ navigation, setLoading }) => values => {
+const onSubmit = ({ navigation, setLoading, profilePic }) => async values => {
   setLoading(true)
-  
-  setTimeout(() => {
-    navigation.navigate('Authorizations')
-  }, 1500);
+  const { fullName, birthDate, cpf } = values
+  const token = await AsyncStorage.getItem('token')
+
+  try {
+    const { data } = await Axios({
+      method: 'POST',
+      url: `${baseUrl}/api/v1/users/finalize-registration`,
+      data: {
+        fullName,
+        birthDate: formatDate(birthDate),
+        cpf,
+        profilePic: profilePic.uri,
+        token,
+      },
+    })
+
+    if (data.success) {
+      navigation.navigate('Authorizations')
+      return setLoading(false)
+    } else {
+      Alert.alert(data.errors[0])
+    }
+  } catch (error) {
+    console.error(error)
+    Alert.alert('Estamos com instabilidades, sua requisição não podê ser atendida.')
+  }
+  setLoading(false)
 }
 
-const getImage = ({ setProfilePick }) => async () => {
-  const profilePick = await launchImageLibraryAsync()
-  if (!profilePick.cancelled) {
-    console.log('dfa')
-    setProfilePick({ uri: profilePick.uri })
+const formatDate = date => {
+  const dateSplit = date.split('/')
+  return `${dateSplit[2]}-${dateSplit[1]}-${dateSplit[0]}`
+}
+
+const getImage = ({ setProfilePic }) => async () => {
+  const profilePic = await launchImageLibraryAsync()
+  if (!profilePic.cancelled) {
+    setProfilePic({ uri: profilePic.uri })
   }
 }
 
