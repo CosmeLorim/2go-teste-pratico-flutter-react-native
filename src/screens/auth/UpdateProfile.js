@@ -54,6 +54,10 @@ export const UpdateProfile = ({ navigation }) => {
         />
         <CustomInput
           icon='gift'
+          type={'datetime'}
+          options={{
+            format: 'DD/MM/YYYY'
+          }}
           onChangeText={handleChange('birthDate')}
           value={values.birthDate}
           style={{ marginTop: -1 }}
@@ -62,6 +66,7 @@ export const UpdateProfile = ({ navigation }) => {
         />
         <CustomInput
           icon='doc'
+          type='cpf'
           onChangeText={handleChange('cpf')}
           value={values.cpf}
           style={{ marginTop: -1 }}

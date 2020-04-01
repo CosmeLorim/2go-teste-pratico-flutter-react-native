@@ -38,6 +38,7 @@ export const Login = ({ navigation }) => {
           value={values.password}
           onChangeText={handleChange('password')}
           icon='password'
+          secureTextEntry
           placeholder='Senha'
           style={{ marginTop: 5 }}
           borderBottomRounded

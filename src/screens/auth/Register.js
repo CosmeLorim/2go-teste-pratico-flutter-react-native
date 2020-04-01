@@ -42,6 +42,12 @@ export const Register = ({ navigation }) => {
       <View style={styles.formPart1}>
         <CustomInput
           icon='phone'
+          type={'cel-phone'}
+          options={{
+            maskType: 'BRL',
+            withDDD: true,
+            dddMask: '(99) '
+          }}
           value={values.phone}
           onChangeText={handleChange('phone')}
           placeholder='Informe seu celular'
@@ -49,9 +55,9 @@ export const Register = ({ navigation }) => {
           borderTopRounded
         />
         <CustomInput
-          icon='mail'
+          icon='email'
           value={values.email}
-          onChangeText={handleChange('mail')}
+          onChangeText={handleChange('email')}
           placeholder='Informe seu e-mail'
           style={{ marginTop: -1 }}
         />
@@ -59,12 +65,14 @@ export const Register = ({ navigation }) => {
       <View style={styles.formPart2}>
         <CustomInput
           icon='password'
+          secureTextEntry
           value={values.password1}
           onChangeText={handleChange('password1')}
           placeholder='Digite sua senha'
         />
         <CustomInput
           value={values.password2}
+          secureTextEntry
           onChangeText={handleChange('password2')}
           placeholder='Confirme sua senha'
           style={{ marginTop: -1 }}
