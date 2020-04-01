@@ -1,26 +1,32 @@
 import React from 'react'
 import { StyleSheet, View, Image, TextInput } from 'react-native'
+import { TextInputMask } from 'react-native-masked-text'
 
 export const CustomInput = props => {
   const {
     onChangeText,
+    type,
+    options,
     value,
     icon,
     placeholder,
     borderTopRounded = false,
     borderBottomRounded = false,
     style = StyleSheet.create({}),
+    secureTextEntry,
     keyboardType,
   } = props
   const styles = getStyles({ borderTopRounded, borderBottomRounded, style })
 
-  const secureTextEntry = icon === 'password'
   const iconPng = getImagePng(icon)
+  const Input = type ? TextInputMask : TextInput
 
   return (
     <View style={styles.root}>
       <Image source={iconPng} style={styles.icon} />
-      <TextInput
+      <Input
+        type={type}
+        options={options}
         onChangeText={onChangeText}
         value={value}
         style={styles.input}
@@ -48,7 +54,7 @@ const getImagePng = (icon) => {
       iconPng = require('../../assets/icons/smartphone.png')
       break
 
-    case 'mail':
+    case 'email':
       iconPng = require('../../assets/icons/mail.png')
       break
 
